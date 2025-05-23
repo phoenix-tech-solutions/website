@@ -147,27 +147,82 @@ const HeroSection = () => {
     const animateHeroTilt = (tiltRef: HTMLDivElement) => {
         // Attach ref for tilt effect
         if (!tiltRef) return;
-        const handleMouseMove = (e: MouseEvent) => {
-            const rect = tiltRef.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((centerY - y) / centerY) * 20; // max 10deg
-            const rotateY = ((centerX - x) / centerX) * -20;
+        let currentRotateX = 0;
+        let currentRotateY = 0;
+        let currentScale = 1;
+        let animationFrame: number | null = null;
+
+        const maxRotate = 18; // dramatic tilt
+        const maxScale = 1.035;
+        const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+
+        let targetRotateX = 0;
+        let targetRotateY = 0;
+        let targetScale = 1;
+
+        // Range covers the entire page (viewport)
+        const tiltRangeX = window.innerWidth / 1.2;
+        const tiltRangeY = window.innerHeight / 1.2;
+
+        const animate = () => {
+            currentRotateX = lerp(currentRotateX, targetRotateX, 0.2);
+            currentRotateY = lerp(currentRotateY, targetRotateY, 0.2);
+            currentScale = lerp(currentScale, targetScale, 0.2);
             tiltRef.style.transform =
-                `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                `rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg) scale(${currentScale})`;
+            if (
+                Math.abs(currentRotateX - targetRotateX) > 0.1 ||
+                Math.abs(currentRotateY - targetRotateY) > 0.1 ||
+                Math.abs(currentScale - targetScale) > 0.001
+            ) {
+                animationFrame = requestAnimationFrame(animate);
+            } else {
+                animationFrame = null;
+            }
+        };
+
+        const handleMouseMove = (e: MouseEvent) => {
+            // Use viewport center as reference for full-page tilt
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const normX = (e.clientX - centerX) / tiltRangeX;
+            const normY = (e.clientY - centerY) / tiltRangeY;
+
+            // Distance from center (0 at center, 1 at edge, >1 outside)
+            const dist = Math.sqrt(normX * normX + normY * normY);
+            // The closer to center, the more tilt; fade out as you move away
+            const intensity = Math.max(0, 1 - dist);
+
+            if (intensity <= 0) {
+                targetRotateX = 0;
+                targetRotateY = 0;
+                targetScale = 1;
+            } else {
+                targetRotateX = normY * -maxRotate * intensity;
+                targetRotateY = normX * maxRotate * intensity;
+                targetScale = 1 + (maxScale - 1) * intensity;
+            }
+            if (!animationFrame) {
+                animate();
+            }
         };
 
         const handleMouseLeave = () => {
-            tiltRef.style.transform = "";
+            targetRotateX = 0;
+            targetRotateY = 0;
+            targetScale = 1;
+            if (!animationFrame) {
+                animate();
+            }
         };
 
-        tiltRef.addEventListener("mousemove", handleMouseMove);
+        // Listen on window for full-page tilt
+        window.addEventListener("mousemove", handleMouseMove);
         tiltRef.addEventListener("mouseleave", handleMouseLeave);
         return () => {
-            tiltRef.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mousemove", handleMouseMove);
             tiltRef.removeEventListener("mouseleave", handleMouseLeave);
+            if (animationFrame) cancelAnimationFrame(animationFrame);
         };
     };
 
@@ -187,7 +242,7 @@ const HeroSection = () => {
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center perspective-[1000px]">
                 <div
-                    className="transform transition-all duration-700 p-50"
+                    className="transform transition-transform duration-100 ease-out p-50"
                     ref={animateHeroTilt}
                 >
                     <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
