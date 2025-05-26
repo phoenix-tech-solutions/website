@@ -227,7 +227,10 @@ const HeroSection = () => {
     };
 
     return (
-        <section className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-black">
+        <section
+            id="hero-section"
+            className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-black"
+        >
             {/* Animated background canvas */}
             <canvas
                 ref={canvasRef}

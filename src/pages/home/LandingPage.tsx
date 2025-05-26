@@ -71,54 +71,12 @@ const HowWeWork: React.FC = () => {
     );
 };
 
-const FooterCTA: React.FC = () => {
-    const [visible, setVisible] = useState(false);
-    const spotlightRef = useRef<HTMLElement | null>(null);
-
-    useEffect(() => {
-        // Find the Spotlight section by its heading text
-        const section = Array.from(document.querySelectorAll("section")).find(
-            (el) => el.querySelector("h2")?.textContent === "Spotlight"
-        ) as HTMLElement | undefined;
-        spotlightRef.current = section || null;
-
-        if (!spotlightRef.current) return;
-
-        const handleScroll = () => {
-            const rect = spotlightRef.current!.getBoundingClientRect();
-            // If the bottom of the spotlight is above the top of the viewport, user has scrolled past it
-            setVisible(rect.bottom < window.innerHeight);
-        };
-
-        window.addEventListener("scroll", handleScroll, { passive: false });
-        // Run once in case already past on mount
-        handleScroll();
-
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    if (!visible) return null;
-
-    return (
-        <div className="fixed bottom-0 w-full bg-blue-600 text-white py-4 px-6 flex justify-between items-center z-50">
-            <span className="font-medium">Ready to ignite your project?</span>
-            <a
-                href="#work-with-us"
-                className="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold shadow"
-            >
-                Start Your Project
-            </a>
-        </div>
-    );
-};
-
 const LandingPage: React.FC = () => (
     <>
         <HeroSection />
         <ImpactSnapshot />
         <Spotlight />
         <HowWeWork />
-        <FooterCTA />
     </>
 );
 
