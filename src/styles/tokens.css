@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@theme {
+  --color-bone: #f4efe6;
+  --color-bone-raised: #faf7f1;
+  --color-bone-sunk: #ede6d9;
+  --color-ash-900: #14120f;
+  --color-ash-700: #3a352e;
+  --color-ash-500: #6b6459;
+  --color-ash-300: #a9a093;
+  --color-ash-200: #ddd5c8;
+  --color-ash-100: #e7e0d3;
+  --color-ember: #bf3b1e;
+  --color-ember-lift: #e8663f;
+  --color-ember-wash: #f0dcd3;
+  --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --radius-none: 0;
+  --radius-pill: 999px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur-fast: 180ms;
+  --dur-base: 380ms;
+  --dur-slow: 720ms;
+  --dur-reveal: 1100ms;
+  --container: 1360px;
+  --measure: 68ch;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --gap: clamp(1rem, 2vw, 2rem);
+  --space-section: clamp(6rem, 10vw, 11rem);
+  --nav-h: 72px;
+}
