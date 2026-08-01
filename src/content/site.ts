@@ -9,9 +9,7 @@ export const site = {
   nav: [
     { label: "Work", href: "/work" },
     { label: "About", href: "/about" },
-    { label: "Join", href: "/join" },
-    { label: "Badge", href: "/badge" },
   ],
   legal:
-    "© 2026 Phoenix Tech Solutions. A fiscally sponsored project of The Hack Foundation (d/b/a Hack Club), a 501(c)(3) nonprofit — EIN 81-2908499. Donations are tax-deductible in the United States.",
+    "© 2026 Phoenix Tech Solutions · Fiscally sponsored by The Hack Foundation, a 501(c)(3) nonprofit · EIN 81-2908499.",
 };

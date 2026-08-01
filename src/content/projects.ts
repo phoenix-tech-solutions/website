@@ -36,10 +36,9 @@ export const projects: Project[] = [
     stack: ["React", "Vercel"],
     summary: "A home for student volunteers serving meals in downtown Atlanta.",
     caseStudy: {
-      ask: "The school club needed one clear place to explain its work, recruit volunteers, and point students to weekly service sign-ups.",
-      made: "We built a mobile-first site with a direct path from the mission to the volunteer details, photo evidence, and contact form.",
-      result:
-        "Food4Lives now has a public home its student organizers can share with volunteers, families, and school partners.",
+      ask: "Explain the club's work and make weekly sign-ups easy.",
+      made: "A mobile-first site for the mission, volunteer details, photos, and contact.",
+      result: "One public link for students, families, and school partners.",
       shots: [],
     },
   },
@@ -57,10 +56,9 @@ export const projects: Project[] = [
     stack: ["React", "Cloudflare Pages"],
     summary: "Resident stories for a community of adults with physical disabilities.",
     caseStudy: {
-      ask: "Champions Place wanted a respectful, readable archive for resident profiles written through a student storytelling program.",
-      made: "We designed an editorial story site that keeps the residents and their words at the center, with simple navigation and accessible reading layouts.",
-      result:
-        "The stories now have a permanent public home that families, supporters, and future participants can visit.",
+      ask: "Create a respectful archive for resident stories.",
+      made: "An accessible editorial site centered on each resident's words.",
+      result: "A permanent home for families, supporters, and future participants.",
       shots: [],
     },
   },
@@ -78,10 +76,9 @@ export const projects: Project[] = [
     stack: ["React", "Vercel"],
     summary: "A clear program site for hands-on robotics classes and VEX IQ teams.",
     caseStudy: {
-      ask: "A youth robotics program needed a credible public site that parents could understand quickly and use to find program information.",
-      made: "We organized the program around age groups, outcomes, and next steps, then built a responsive site that works cleanly on a phone.",
-      result:
-        "Parents now have one dependable place to understand the program and decide whether it fits their student.",
+      ask: "Help parents understand the program quickly.",
+      made: "A responsive site organized by age group, outcomes, and next steps.",
+      result: "One dependable place to evaluate the program.",
       shots: [],
     },
   },

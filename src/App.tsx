@@ -6,8 +6,6 @@ const Work = lazy(() => import("./pages/Work"));
 const WorkDetail = lazy(() => import("./pages/WorkDetail"));
 const About = lazy(() => import("./pages/About"));
 const Start = lazy(() => import("./pages/Start"));
-const Join = lazy(() => import("./pages/Join"));
-const Badge = lazy(() => import("./pages/Badge"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Styleguide = lazy(() => import("./pages/Styleguide"));
 function Layout() {
@@ -31,8 +29,6 @@ const children = [
   { path: "work/:slug", element: <WorkDetail /> },
   { path: "about", element: <About /> },
   { path: "start", element: <Start /> },
-  { path: "join", element: <Join /> },
-  { path: "badge", element: <Badge /> },
   ...(import.meta.env.DEV ? [{ path: "styleguide", element: <Styleguide /> }] : []),
   { path: "*", element: <NotFound /> },
 ];

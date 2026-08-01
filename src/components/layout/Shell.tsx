@@ -136,9 +136,7 @@ export function Footer() {
         <div className="footer-grid">
           <div>
             <Lockup />
-            <p className="muted measure">
-              A student-run nonprofit building websites and apps for organizations doing good work.
-            </p>
+            <p className="muted measure">Free digital work for community organizations.</p>
           </div>
           <FooterColumn
             title="Work"
@@ -147,14 +145,7 @@ export function Footer() {
               ["Start a project", "/start"],
             ]}
           />
-          <FooterColumn
-            title="Organization"
-            links={[
-              ["About", "/about"],
-              ["Join", "/join"],
-              ["Badge", "/badge"],
-            ]}
-          />
+          <FooterColumn title="Organization" links={[["About", "/about"]]} />
           <FooterColumn
             title="Connect"
             links={site.email ? [["Email", `mailto:${site.email}`]] : [["Contact", "/start"]]}

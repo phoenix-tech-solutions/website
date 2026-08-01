@@ -3,7 +3,7 @@
   min-height: calc(100svh - var(--nav-h));
   display: grid;
   align-content: center;
-  padding-block: clamp(3rem, 6vw, 6rem);
+  padding-block: clamp(2.5rem, 5vw, 5rem);
   overflow: hidden;
 }
 .hero > .container {
@@ -25,7 +25,6 @@
 }
 .hero-field {
   grid-column: 7/-1;
-  min-height: min(62vw, 620px);
 }
 .hero-stats {
   display: grid;
@@ -116,27 +115,6 @@
 .all-work {
   text-align: right;
 }
-.impact-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-top: 3rem;
-}
-.impact-grid > div {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-inline: clamp(1rem, 3vw, 2.5rem);
-  border-left: 1px solid var(--color-ash-700);
-}
-.impact-grid > div:first-child {
-  padding-left: 0;
-  border-left: 0;
-}
-.impact-line {
-  max-width: 52ch;
-  margin: 5rem auto 0;
-  text-align: center;
-}
 .process-list {
   position: relative;
   display: grid;
@@ -190,6 +168,9 @@
 }
 .closing .button-row {
   justify-content: center;
+}
+.closing > .container > .button {
+  margin-top: 1rem;
 }
 .work-list {
   margin: 0 0 var(--space-section);
@@ -266,6 +247,19 @@
 .case-meta dd {
   margin: 0;
 }
+.case-brief {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+  margin-top: 3rem;
+}
+.case-brief article {
+  padding-top: 1.25rem;
+  border-top: 2px solid var(--color-phoenix-gold);
+}
+.case-brief article > p:last-child {
+  margin-bottom: 0;
+}
 .next-project {
   padding-block: clamp(5rem, 10vw, 9rem);
   background: var(--color-ash-900);
@@ -302,6 +296,10 @@
 .beliefs p {
   margin: 0.75rem 0 0;
 }
+.beliefs--compact article {
+  grid-template-columns: 3rem 1fr;
+  align-items: baseline;
+}
 .team-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -321,35 +319,6 @@
   display: flex;
   gap: 2rem;
   margin-top: 2rem;
-}
-.badge-previews {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap);
-  margin-top: 3rem;
-}
-.badge-previews > div {
-  min-height: 160px;
-  display: grid;
-  place-items: center;
-  border-top: 1px solid var(--color-ash-200);
-}
-.badge-dark {
-  background: var(--color-ash-900);
-}
-.code-block {
-  position: relative;
-  overflow: auto;
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: var(--color-bone-sunk);
-  border-top: 1px solid var(--color-ash-200);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  white-space: pre-wrap;
-}
-.code-block .button {
-  margin-top: 1rem;
 }
 .form-success {
   padding: clamp(2rem, 5vw, 5rem);
@@ -400,22 +369,24 @@
   .team-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .case-brief {
+    grid-template-columns: 1fr;
+  }
 }
 @media (max-width: 639px) {
   .hero {
-    padding-top: 0;
+    min-height: auto;
+    padding-top: 2rem;
   }
   .hero-grid {
-    display: flex;
-    flex-direction: column-reverse;
-    margin-inline: calc(var(--gutter) * -1);
+    display: grid;
+    grid-template-columns: 1fr;
   }
   .hero-copy {
-    padding: 3rem var(--gutter);
+    padding: 0 0 2rem;
   }
   .hero-field {
     width: 100%;
-    min-height: 45svh;
   }
   .hero-stats > div {
     padding-inline: 0.65rem;
@@ -432,14 +403,6 @@
   .service-row > span:last-child {
     grid-column: 2;
     text-align: left;
-  }
-  .impact-grid {
-    grid-template-columns: 1fr;
-  }
-  .impact-grid > div {
-    padding: 1.5rem 0;
-    border-left: 0;
-    border-top: 1px solid var(--color-ash-700);
   }
   .process-list {
     grid-template-columns: 1fr;
@@ -466,8 +429,7 @@
     grid-column: 2;
     text-align: left;
   }
-  .team-grid,
-  .badge-previews {
+  .team-grid {
     grid-template-columns: 1fr;
   }
   .open-roles {

@@ -53,11 +53,9 @@ export default function Work() {
         <Container>
           <Eyebrow accent>Work</Eyebrow>
           <h1 tabIndex={-1} className="t-display-l">
-            Every site we've built.
+            Work, in the open.
           </h1>
-          <p className="t-body-l muted measure">
-            Shipped work, current builds, and what is waiting next. Nothing hidden.
-          </p>
+          <p className="t-body-l muted measure">Live projects and current builds.</p>
         </Container>
       </header>
       <Container>

@@ -1,18 +1,10 @@
-import { access, copyFile, mkdir, readdir } from "node:fs/promises";
+import { copyFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
 const root = path.resolve("public/media");
-const bone = [0xf4, 0xef, 0xe6],
-  ash = [0x14, 0x12, 0x0f];
-async function exists(file) {
-  try {
-    await access(file);
-    return true;
-  } catch {
-    return false;
-  }
-}
+const bone = [0xf8, 0xf3, 0xe8],
+  ash = [0x09, 0x09, 0x09];
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true });
   const files = [];
@@ -96,31 +88,15 @@ async function dither(file) {
     .toFile(out);
 }
 async function generateBaseAssets() {
-  await mkdir(path.join(root, "env"), { recursive: true });
-  const dawn = path.join(root, "env", "dawn.webp");
-  if (!(await exists(dawn))) {
-    const svg = `<svg width="1600" height="900" xmlns="http://www.w3.org/2000/svg"><rect width="1600" height="900" fill="#F4EFE6"/><path d="M0 610L180 500l150 70 260-190 210 170 220-230 230 235 180-110 170 165v290H0z" fill="#6B6459"/><path d="M0 680q300-100 600 0t600 0 400 0v220H0z" fill="#14120F"/><circle cx="1180" cy="270" r="45" fill="#BF3B1E"/></svg>`;
-    await sharp(Buffer.from(svg)).webp({ quality: 82 }).toFile(dawn);
-  }
-  const grain = Buffer.alloc(128 * 128 * 4);
-  let seed = 2024;
-  for (let i = 0; i < 128 * 128; i++) {
-    seed = (seed * 1664525 + 1013904223) >>> 0;
-    const ink = seed / 2 ** 32 < 0.08;
-    const c = ink ? ash : bone;
-    grain[i * 4] = c[0];
-    grain[i * 4 + 1] = c[1];
-    grain[i * 4 + 2] = c[2];
-    grain[i * 4 + 3] = ink ? 255 : 0;
-  }
-  await sharp(grain, { raw: { width: 128, height: 128, channels: 4 } })
-    .png({ palette: true, colours: 2 })
-    .toFile(path.join(root, "grain.png"));
-  const mark = `<svg width="180" height="180" xmlns="http://www.w3.org/2000/svg"><rect width="180" height="180" fill="#F4EFE6"/><g transform="translate(43 43) scale(5)"><path fill="#BF3B1E" d="M8 0h3v3H8z"/><path fill="#14120F" d="M4 4h3v3H4zm8 0h3v3h-3zM0 8h3v3H0zm8 0h3v3H8zm8 0h3v3h-3zM0 12h7v3H0zm12 0h7v3h-7zM0 16h19v3H0z"/></g></svg>`;
-  await sharp(Buffer.from(mark)).resize(180, 180).png().toFile("public/apple-touch-icon.png");
-  await sharp(Buffer.from(mark)).resize(32, 32).png().toFile("public/favicon-32.png");
-  const og = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="630" fill="#F4EFE6"/><g transform="translate(80 70) scale(2.6)"><path fill="#BF3B1E" d="M8 0h3v3H8z"/><path fill="#14120F" d="M4 4h3v3H4zm8 0h3v3H4zm-4 4h3v3H8zM0 8h3v3H0zm16 0h3v3h-3zM0 12h7v3H0zm12 0h7v3h-7zM0 16h19v3H0z"/></g><text x="80" y="300" fill="#14120F" font-family="Georgia,serif" font-size="78">Phoenix Tech Solutions</text><text x="84" y="378" fill="#6B6459" font-family="Arial,sans-serif" font-size="30">Free websites and apps for community organizations.</text><path d="M0 535h1200v95H0z" fill="#14120F"/><path d="M0 535h1200" stroke="#BF3B1E" stroke-width="8" stroke-dasharray="3 13"/></svg>`;
-  await sharp(Buffer.from(og)).png().toFile("public/og.png");
+  const markPath = "public/phoenix-mark.png";
+  await sharp(markPath).resize(180, 180).png().toFile("public/apple-touch-icon.png");
+  await sharp(markPath).resize(32, 32).png().toFile("public/favicon-32.png");
+  const ogMark = await sharp(markPath).resize(390, 390).png().toBuffer();
+  const og = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="630" fill="#000"/><text x="535" y="265" fill="#EFA80F" font-family="Arial,sans-serif" font-size="70" font-weight="700">PHOENIX</text><text x="540" y="325" fill="#EFA80F" font-family="Arial,sans-serif" font-size="28" letter-spacing="9">TECH SOLUTIONS</text><text x="540" y="410" fill="#F8F3E8" font-family="Arial,sans-serif" font-size="28">Free digital work for community organizations.</text></svg>`;
+  await sharp(Buffer.from(og))
+    .composite([{ input: ogMark, left: 80, top: 120 }])
+    .png()
+    .toFile("public/og.png");
 }
 await mkdir(root, { recursive: true });
 await prepareCovers();
@@ -129,4 +105,4 @@ await generateBaseAssets();
 for (const file of await walk(root)) {
   if (file.endsWith(".webp") && !file.endsWith("-800.webp")) await dither(file);
 }
-console.log("Prepared cover WebPs, dither pairs, grain, favicons, and OG image.");
+console.log("Prepared cover WebPs, dither pairs, brand icons, and the OG image.");

@@ -1,5 +1,5 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Container, Editorial, Eyebrow, Prose, Section } from "../components/primitives";
+import { Container, Eyebrow, Section } from "../components/primitives";
 import { DitherImage } from "../components/brand";
 import { projects } from "../content/projects";
 import { useDocumentHead } from "../lib/useDocumentHead";
@@ -62,18 +62,18 @@ export default function WorkDetail() {
         </Container>
       </header>
       {project.caseStudy ? (
-        <>
-          <CaseSection label="The ask" text={project.caseStudy.ask} />
-          <CaseSection label="What we made" text={project.caseStudy.made} />
-          <CaseSection label="Result" text={project.caseStudy.result} />
-        </>
-      ) : (
-        <Section>
-          <p className="muted measure">
-            A detailed account will be added after the client approves the project write-up.
-          </p>
+        <Section ruleTop labelledby="project-brief-title">
+          <Eyebrow accent>Project brief</Eyebrow>
+          <h2 id="project-brief-title" className="sr-only">
+            Project brief
+          </h2>
+          <div className="case-brief">
+            <CasePoint label="Need" text={project.caseStudy.ask} />
+            <CasePoint label="Build" text={project.caseStudy.made} />
+            <CasePoint label="Result" text={project.caseStudy.result} />
+          </div>
         </Section>
-      )}
+      ) : null}
       <section className="next-project">
         <Container>
           <p className="t-mono">Next</p>
@@ -88,15 +88,11 @@ export default function WorkDetail() {
     </>
   );
 }
-function CaseSection({ label, text }: { label: string; text: string }) {
+function CasePoint({ label, text }: { label: string; text: string }) {
   return (
-    <Section ruleTop>
-      <Editorial rail={<p className="t-mono muted">{label}</p>}>
-        <Prose>
-          <h2 className="t-display-m">{label}</h2>
-          <p className="t-body-l muted">{text}</p>
-        </Prose>
-      </Editorial>
-    </Section>
+    <article>
+      <p className="t-mono muted">{label}</p>
+      <p className="t-body-l">{text}</p>
+    </article>
   );
 }

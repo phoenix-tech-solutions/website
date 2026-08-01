@@ -1,17 +1,18 @@
 @import "tailwindcss";
 @theme {
-  --color-bone: #f4efe6;
-  --color-bone-raised: #faf7f1;
-  --color-bone-sunk: #ede6d9;
-  --color-ash-900: #14120f;
-  --color-ash-700: #3a352e;
-  --color-ash-500: #6b6459;
-  --color-ash-300: #a9a093;
-  --color-ash-200: #ddd5c8;
-  --color-ash-100: #e7e0d3;
-  --color-ember: #bf3b1e;
-  --color-ember-lift: #e8663f;
-  --color-ember-wash: #f0dcd3;
+  --color-bone: #f8f3e8;
+  --color-bone-raised: #fffaf0;
+  --color-bone-sunk: #eee6d7;
+  --color-ash-900: #090909;
+  --color-ash-700: #302c26;
+  --color-ash-500: #686158;
+  --color-ash-300: #a89f91;
+  --color-ash-200: #dcd2c2;
+  --color-ash-100: #e9e0d1;
+  --color-ember: #955900;
+  --color-ember-lift: #efa80f;
+  --color-ember-wash: #f6e4b7;
+  --color-phoenix-gold: #efa80f;
   --font-serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
   --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
@@ -28,6 +29,6 @@
   --measure: 68ch;
   --gutter: clamp(1.25rem, 4vw, 3.5rem);
   --gap: clamp(1rem, 2vw, 2rem);
-  --space-section: clamp(6rem, 10vw, 11rem);
+  --space-section: clamp(5rem, 8vw, 8rem);
   --nav-h: 72px;
 }

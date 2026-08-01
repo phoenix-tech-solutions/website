@@ -1,26 +1,26 @@
 export const process = [
   {
     index: "01",
-    title: "Tell us about your organization",
-    body: "A form, then a 30-minute call.",
+    title: "Tell us what you need",
+    body: "Send the form and meet with us.",
     duration: "Week 0",
   },
   {
     index: "02",
     title: "We design it",
-    body: "You see real screens before anything is built.",
+    body: "Review the key screens.",
     duration: "Week 1",
   },
   {
     index: "03",
     title: "We build it",
-    body: "You get a preview link that updates as we go.",
+    body: "Follow progress on a preview link.",
     duration: "Weeks 2–4",
   },
   {
     index: "04",
     title: "You own it",
-    body: "Live on your domain, with the code and a walkthrough.",
+    body: "Launch with the code and a walkthrough.",
     duration: "Week 4",
   },
 ] as const;

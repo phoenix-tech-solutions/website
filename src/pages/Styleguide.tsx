@@ -1,4 +1,4 @@
-import { BuiltByBadge, Lockup, Mark } from "../components/brand";
+import { Lockup, Mark } from "../components/brand";
 import {
   Button,
   Chip,
@@ -16,7 +16,7 @@ export default function Styleguide() {
       <header className="page-header">
         <Eyebrow accent>Private styleguide</Eyebrow>
         <h1 tabIndex={-1} className="t-display-l">
-          Paper, ash, and one ember.
+          Warm paper, black, and gold.
         </h1>
       </header>
       <Rule />
@@ -59,7 +59,6 @@ export default function Styleguide() {
         <div className="button-row">
           <Mark size={48} />
           <Lockup />
-          <BuiltByBadge />
         </div>
       </Section>
       <Rule />

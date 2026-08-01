@@ -17,7 +17,7 @@ html {
 }
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 280px;
   overflow-x: hidden;
   background: var(--color-bone);
   color: var(--color-ash-900);
@@ -333,15 +333,6 @@ h1:focus {
   opacity: 0.4;
   pointer-events: none;
 }
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  opacity: 0.035;
-  mix-blend-mode: multiply;
-  background: url("/media/grain.png") repeat;
-}
 .field {
   display: grid;
   gap: 0.45rem;
@@ -450,9 +441,6 @@ h1:focus {
 @media (max-width: 639px) {
   .grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .grain {
-    display: none;
   }
   .t-display-xl {
     font-size: clamp(3rem, 15vw, 4.7rem);
