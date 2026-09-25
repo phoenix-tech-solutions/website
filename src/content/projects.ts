@@ -7,19 +7,14 @@ export interface Project {
   kind: ProjectKind;
   status: ProjectStatus;
   year: number;
-  summary: string;
+  summary?: string;
   sector: string;
   url?: string;
   featured?: boolean;
   cover?: string;
   stack?: string[];
-  team?: string[];
-  caseStudy?: {
-    ask: string;
-    made: string;
-    result: string;
-    shots: { src: string; alt: string; caption?: string }[];
-  };
+  /** Paragraphs for the case study page. Projects without one are not linked to a detail page. */
+  story?: string[];
 }
 export const projects: Project[] = [
   {
@@ -35,12 +30,10 @@ export const projects: Project[] = [
     cover: "/media/work/food4lives/cover.webp",
     stack: ["React", "Vercel"],
     summary: "A home for student volunteers serving meals in downtown Atlanta.",
-    caseStudy: {
-      ask: "Explain the club's work and make weekly sign-ups easy.",
-      made: "A mobile-first site for the mission, volunteer details, photos, and contact.",
-      result: "One public link for students, families, and school partners.",
-      shots: [],
-    },
+    story: [
+      "The club needed to explain its work and make weekly volunteer sign-ups easy.",
+      "We built a mobile-first site with the mission, volunteer details, photos, and contact information. Students, families, and school partners now share one public link.",
+    ],
   },
   {
     slug: "stories-of-champions",
@@ -55,12 +48,10 @@ export const projects: Project[] = [
     cover: "/media/work/stories-of-champions/cover.webp",
     stack: ["React", "Cloudflare Pages"],
     summary: "Resident stories for a community of adults with physical disabilities.",
-    caseStudy: {
-      ask: "Create a respectful archive for resident stories.",
-      made: "An accessible editorial site centered on each resident's words.",
-      result: "A permanent home for families, supporters, and future participants.",
-      shots: [],
-    },
+    story: [
+      "Champions Place wanted a respectful archive for resident stories.",
+      "We built an accessible editorial site centered on each resident's own words. It gives families, supporters, and future participants a permanent place to read them.",
+    ],
   },
   {
     slug: "re-imagine-robotics",
@@ -75,12 +66,10 @@ export const projects: Project[] = [
     cover: "/media/work/re-imagine-robotics/cover.webp",
     stack: ["React", "Vercel"],
     summary: "A clear program site for hands-on robotics classes and VEX IQ teams.",
-    caseStudy: {
-      ask: "Help parents understand the program quickly.",
-      made: "A responsive site organized by age group, outcomes, and next steps.",
-      result: "One dependable place to evaluate the program.",
-      shots: [],
-    },
+    story: [
+      "Parents needed to understand the program quickly.",
+      "We organized the site by age group, outcomes, and next steps, so a family can evaluate the program in one place.",
+    ],
   },
   {
     slug: "sewa-green-team",
@@ -94,6 +83,7 @@ export const projects: Project[] = [
     cover: "/media/work/sewa-green-team/cover.webp",
     summary: "Projects, events, and resources for a student environmental service team.",
   },
+  // TODO(confirm): live URL and screenshot for Hands of Hope.
   {
     slug: "hands-of-hope",
     client: "Hands of Hope",
@@ -103,26 +93,6 @@ export const projects: Project[] = [
     year: 2025,
     sector: "Community service",
     summary: "A public site for local service work and the people behind it.",
-  },
-  {
-    slug: "it-summer-camp",
-    client: "IT Summer Camp",
-    title: "IT Summer Camp",
-    kind: "website",
-    status: "live",
-    year: 2025,
-    sector: "Technology education",
-    summary: "Program information and registration guidance for a student summer camp.",
-  },
-  {
-    slug: "re-imagine-robotics-app",
-    client: "Re-Imagine Robotics",
-    title: "Robotics mobile app",
-    kind: "app",
-    status: "building",
-    year: 2026,
-    sector: "STEM education",
-    summary: "A companion app for students and families in the robotics program.",
   },
   {
     slug: "science-olympiad",
@@ -135,26 +105,6 @@ export const projects: Project[] = [
     summary: "A team site for schedules, events, and competition resources.",
   },
   {
-    slug: "vihari",
-    client: "Vihari",
-    title: "Vihari",
-    kind: "website",
-    status: "building",
-    year: 2026,
-    sector: "Community",
-    summary: "A new public website, currently in design and content work.",
-  },
-  {
-    slug: "charith",
-    client: "Charith",
-    title: "Charith",
-    kind: "website",
-    status: "building",
-    year: 2026,
-    sector: "Community",
-    summary: "A new public website, currently in design and content work.",
-  },
-  {
     slug: "tsa",
     client: "TSA",
     title: "TSA",
@@ -162,9 +112,16 @@ export const projects: Project[] = [
     status: "queued",
     year: 2026,
     sector: "Student organization",
-    summary: "A student organization website queued for the next build cycle.",
   },
 ];
 export const featured = projects.filter((project) => project.featured);
 export const live = projects.filter((project) => project.status === "live");
-export const building = projects.filter((project) => project.status === "building");
+export const inProgress = projects.filter((project) => project.status !== "live");
+export const caseStudies = projects.filter((project) => project.story);
+
+const counts = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+/** Spells out small counts for running copy ("six sites live"). */
+export function spell(count: number, capitalize = false) {
+  const word = counts[count] ?? String(count);
+  return capitalize ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+}

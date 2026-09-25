@@ -2,7 +2,7 @@
 export const site = {
   name: "Phoenix Tech Solutions",
   foundingYear: 2024,
-  location: "Atlanta, GA",
+  location: "Atlanta",
   email: "",
   donateUrl: "",
   url: "https://phoenixtechsolutions.org",
@@ -10,6 +10,6 @@ export const site = {
     { label: "Work", href: "/work" },
     { label: "About", href: "/about" },
   ],
-  legal:
-    "© 2026 Phoenix Tech Solutions · Fiscally sponsored by The Hack Foundation, a 501(c)(3) nonprofit · EIN 81-2908499.",
+  sponsor:
+    "Fiscally sponsored by The Hack Foundation (Hack Club), a 501(c)(3) nonprofit. EIN 81-2908499.",
 };
