@@ -1,98 +1,85 @@
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Container, Eyebrow, Section } from "../components/primitives";
-import { DitherImage } from "../components/brand";
-import { projects } from "../content/projects";
+import { Container, ExternalLink, Screenshot, Section } from "../components/primitives";
+import { caseStudies } from "../content/projects";
 import { useDocumentHead } from "../lib/useDocumentHead";
+
 export default function WorkDetail() {
   const { slug } = useParams();
-  const project = projects.find((item) => item.slug === slug);
-  useDocumentHead(`${project?.client ?? "Work"} · Phoenix Tech Solutions`);
-  if (!project || project.status !== "live") return <Navigate to="/work" replace />;
-  const index = projects.indexOf(project);
-  const next = projects[(index + 1) % projects.length];
+  const project = caseStudies.find((item) => item.slug === slug);
+  useDocumentHead(`${project?.client ?? "Work"} · Phoenix Tech Solutions`, project?.summary);
+  if (!project?.story) return <Navigate to="/work" replace />;
+  const next = caseStudies[(caseStudies.indexOf(project) + 1) % caseStudies.length];
   return (
     <>
-      {project.cover && (
-        <DitherImage
-          className="case-hero"
-          src={project.cover}
-          alt={`Homepage of the ${project.title} site`}
-          ratio="16/9"
-          trigger="view"
-          priority
-        />
-      )}
-      <header className="page-header case-header">
+      <header className="page-header">
         <Container>
-          <Eyebrow accent>{project.sector}</Eyebrow>
-          <div className="editorial">
-            <div className="editorial__main">
-              <h1 tabIndex={-1} className="t-display-l">
-                {project.client}
-              </h1>
-              <p className="t-body-l muted">{project.summary}</p>
+          <p className="crumb t-label">
+            <Link to="/work" viewTransition>
+              Work
+            </Link>{" "}
+            / {project.sector}
+          </p>
+          <h1 tabIndex={-1} className="t-display">
+            {project.client}
+          </h1>
+          <p className="t-lead muted">{project.summary}</p>
+          <dl className="case-meta">
+            <div>
+              <dt>Site</dt>
+              <dd>{project.title}</dd>
             </div>
-            <dl className="editorial__rail case-meta">
+            <div>
+              <dt>Launched</dt>
+              <dd>{project.year}</dd>
+            </div>
+            {project.stack && (
               <div>
-                <dt>Year</dt>
-                <dd>{project.year}</dd>
+                <dt>Built with</dt>
+                <dd>{project.stack.join(", ")}</dd>
               </div>
+            )}
+            {project.url && (
               <div>
-                <dt>Type</dt>
-                <dd>{project.kind}</dd>
+                <dt>Live site</dt>
+                <dd>
+                  <ExternalLink href={project.url}>{new URL(project.url).hostname}</ExternalLink>
+                </dd>
               </div>
-              {project.stack && (
-                <div>
-                  <dt>Stack</dt>
-                  <dd>{project.stack.join(" · ")}</dd>
-                </div>
-              )}
-              {project.url && (
-                <div>
-                  <dt>Live</dt>
-                  <dd>
-                    <a href={project.url} target="_blank" rel="noopener noreferrer">
-                      Visit site ↗
-                    </a>
-                  </dd>
-                </div>
-              )}
-            </dl>
-          </div>
+            )}
+          </dl>
         </Container>
       </header>
-      {project.caseStudy ? (
-        <Section ruleTop labelledby="project-brief-title">
-          <Eyebrow accent>Project brief</Eyebrow>
-          <h2 id="project-brief-title" className="sr-only">
-            Project brief
-          </h2>
-          <div className="case-brief">
-            <CasePoint label="Need" text={project.caseStudy.ask} />
-            <CasePoint label="Build" text={project.caseStudy.made} />
-            <CasePoint label="Result" text={project.caseStudy.result} />
-          </div>
-        </Section>
-      ) : null}
-      <section className="next-project">
+      {project.cover && (
         <Container>
-          <p className="t-mono">Next</p>
-          <Link
-            className="t-display-l"
-            to={`/work/${next.status === "live" ? next.slug : projects[0].slug}`}
-          >
-            {next.status === "live" ? next.client : projects[0].client} →
-          </Link>
+          <Screenshot
+            src={project.cover}
+            alt={`Homepage of the ${project.title} website`}
+            sizes="(max-width: 1200px) 100vw, 1200px"
+            className="shot--large"
+            priority
+          />
         </Container>
-      </section>
+      )}
+      <Section labelledby="story-title">
+        <h2 id="story-title" className="sr-only">
+          About the project
+        </h2>
+        <div className="prose case-story">
+          {project.story.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      </Section>
+      {next !== project && (
+        <nav className="next-case" aria-label="Next case study">
+          <Container>
+            <p className="t-label">Next case study</p>
+            <Link className="t-h2 text-link" to={`/work/${next.slug}`} viewTransition>
+              {next.client}
+            </Link>
+          </Container>
+        </nav>
+      )}
     </>
-  );
-}
-function CasePoint({ label, text }: { label: string; text: string }) {
-  return (
-    <article>
-      <p className="t-mono muted">{label}</p>
-      <p className="t-body-l">{text}</p>
-    </article>
   );
 }

@@ -1,23 +1,26 @@
-import { Button } from "../components/primitives";
+import { Button, Container } from "../components/primitives";
 import { Mark } from "../components/brand";
 import { useDocumentHead } from "../lib/useDocumentHead";
+
 export default function NotFound() {
-  useDocumentHead("404 · Phoenix Tech Solutions");
+  useDocumentHead("Page not found · Phoenix Tech Solutions");
   return (
     <section className="not-found">
-      <Mark size={48} animated />
-      <p className="t-mono">404</p>
-      <h1 tabIndex={-1} className="t-display-l">
-        This page never got <em className="italic">built.</em>
-      </h1>
-      <div className="button-row">
-        <Button href="/" as="link">
-          Go home
-        </Button>
-        <Button href="/work" as="link" variant="secondary">
-          See our work
-        </Button>
-      </div>
+      <Container>
+        <Mark size={96} missing={1} enter />
+        <h1 tabIndex={-1} className="t-display">
+          Page not found
+        </h1>
+        <p className="t-lead muted measure">
+          The page you're looking for doesn't exist or has moved.
+        </p>
+        <div className="button-row">
+          <Button to="/">Go to the homepage</Button>
+          <Button to="/work" variant="secondary">
+            See our work
+          </Button>
+        </div>
+      </Container>
     </section>
   );
 }

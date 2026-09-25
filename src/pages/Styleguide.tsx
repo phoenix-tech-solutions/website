@@ -1,75 +1,76 @@
 import { Lockup, Mark } from "../components/brand";
-import {
-  Button,
-  Chip,
-  Container,
-  Counter,
-  Eyebrow,
-  Field,
-  Rule,
-  Section,
-  StatusDot,
-} from "../components/primitives";
+import { Button, Container, Field, Section } from "../components/primitives";
+
+const swatches = [
+  ["Cream", "var(--color-cream)"],
+  ["Ink", "var(--color-ink)"],
+  ["Navy", "var(--color-navy)"],
+  ["Terracotta", "var(--color-terracotta)"],
+  ["Terracotta deep (small text)", "var(--color-terracotta-deep)"],
+] as const;
+
 export default function Styleguide() {
   return (
-    <Container>
+    <>
       <header className="page-header">
-        <Eyebrow accent>Private styleguide</Eyebrow>
-        <h1 tabIndex={-1} className="t-display-l">
-          Warm paper, black, and gold.
-        </h1>
+        <Container>
+          <h1 tabIndex={-1} className="t-display">
+            Styleguide
+          </h1>
+          <p className="t-lead muted">Cream ground, ink text, navy, and one terracotta accent.</p>
+        </Container>
       </header>
-      <Rule />
-      <Section>
-        <h2 className="t-display-m">Type</h2>
-        <p className="t-display-xl">Display XL</p>
-        <p className="t-display-l">Display L</p>
-        <p className="t-display-m">Display M</p>
-        <p className="t-heading">Heading</p>
-        <p className="t-body-l">Large body copy for the first important paragraph.</p>
-        <p className="t-body muted">Default body copy stays calm and readable.</p>
-        <p className="t-mono">Technical label</p>
-        <Counter value={10} />
+      <Section ruleTop>
+        <h2 className="t-h2">Color</h2>
+        <div className="button-row">
+          {swatches.map(([name, value]) => (
+            <div key={name}>
+              <div
+                style={{
+                  width: 120,
+                  height: 72,
+                  background: value,
+                  border: "1px solid var(--color-line)",
+                }}
+              />
+              <p className="t-label">{name}</p>
+            </div>
+          ))}
+        </div>
       </Section>
-      <Rule />
-      <Section>
-        <h2 className="t-display-m">Controls</h2>
+      <Section ruleTop>
+        <h2 className="t-h2">Type</h2>
+        <p className="t-display">Display</p>
+        <p className="t-h2">Heading two</p>
+        <p className="t-h3">Heading three</p>
+        <p className="t-lead">Lead copy for the first important paragraph.</p>
+        <p>Body copy stays calm and readable.</p>
+        <p className="t-label">Label</p>
+      </Section>
+      <Section ruleTop>
+        <h2 className="t-h2">Controls</h2>
         <div className="button-row">
           <Button>Primary</Button>
           <Button variant="secondary">Secondary</Button>
-          <Button variant="ghost">Ghost</Button>
-        </div>
-        <div className="chip-row">
-          <Chip selected onClick={() => undefined}>
-            Active
-          </Chip>
-          <Chip selected={false} onClick={() => undefined}>
-            Inactive
-          </Chip>
-        </div>
-        <div className="button-row">
-          <StatusDot status="live" label="Live" />
-          <StatusDot status="building" label="Building" />
-          <StatusDot status="queued" label="Queued" />
+          <Button variant="accent">Accent</Button>
         </div>
       </Section>
-      <Rule />
-      <Section>
-        <h2 className="t-display-m">Brand</h2>
+      <Section ruleTop>
+        <h2 className="t-h2">Brand</h2>
         <div className="button-row">
-          <Mark size={48} />
+          <Mark size={96} />
+          <Mark size={32} />
           <Lockup />
         </div>
       </Section>
-      <Rule />
-      <Section>
-        <h2 className="t-display-m">Fields</h2>
+      <Section ruleTop>
+        <h2 className="t-h2">Fields</h2>
         <div className="form-panel">
-          <Field label="Organization" name="example" />
+          <Field label="Organization" name="example" required />
           <Field label="Message" name="message" as="textarea" />
           <Field label="Error state" name="error" error="A useful error message." />
         </div>
       </Section>
-    </Container>
+    </>
   );
 }

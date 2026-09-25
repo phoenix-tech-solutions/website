@@ -1,19 +1,23 @@
 import { FormEvent, useState } from "react";
-import { Button, Container, Eyebrow, Field } from "../components/primitives";
+import { Button, Container, Field } from "../components/primitives";
+import { Mark } from "../components/brand";
 import { FormState, postForm, validateForm } from "../lib/forms";
 import { useDocumentHead } from "../lib/useDocumentHead";
 
-const next = ["We review your request", "We meet for 30 minutes", "You see a plan"];
+const next = ["We read your request.", "We meet with you for 30 minutes.", "We send you a plan."];
+const required = ["organization", "name", "email", "about"];
 
 export default function Start() {
   useDocumentHead("Start a project · Phoenix Tech Solutions");
   const [state, setState] = useState<FormState>("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Each finished required answer adds a piece to the wing, in the same order as the process.
+  const [answered, setAnswered] = useState(0);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const nextErrors = validateForm(form, ["organization", "name", "email", "about"]);
+    const nextErrors = validateForm(form, required);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) {
       const firstInvalid = Object.keys(nextErrors)[0];
@@ -32,41 +36,52 @@ export default function Start() {
   }
 
   return (
-    <section className="section start-page">
+    <section className="start-page">
       <Container>
         <div className="form-layout">
-          <div className="form-copy sticky-copy">
-            <Eyebrow accent>Start a project</Eyebrow>
-            <h1 tabIndex={-1} className="t-display-l">
-              Tell us what you <em className="italic">need.</em>
+          <div className="form-copy">
+            <h1 tabIndex={-1} className="t-display">
+              Tell us about your organization.
             </h1>
-            <p className="t-body-l muted">
-              Free for nonprofits, school clubs, and community groups.
-            </p>
-            <div className="checklist">
-              <Eyebrow>What happens next</Eyebrow>
-              {next.map((item, index) => (
-                <p key={item}>
-                  <span className="t-mono-sm">0{index + 1}</span>
-                  {item}
-                </p>
-              ))}
+            <p className="t-lead muted">Free for nonprofits, school clubs, and community groups.</p>
+            <div className="next-steps">
+              <h2 className="t-h3">What happens next</h2>
+              <ol>
+                {next.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ol>
             </div>
           </div>
 
           <div className="form-wrap">
             {state === "success" ? (
               <div className="form-success" role="status">
-                <p className="t-display-m">Got it.</p>
-                <p>We'll reply within a week.</p>
+                <p className="t-h2">Thanks, we got your request.</p>
+                <p className="muted">We'll reply within a week.</p>
               </div>
             ) : (
               <form
                 className="form-panel"
                 onSubmit={submit}
+                onInput={(event) => {
+                  const found = validateForm(event.currentTarget, required);
+                  setAnswered(required.filter((name) => !found[name]).length);
+                }}
                 noValidate
                 aria-busy={state === "submitting"}
               >
+                <div className="form-progress">
+                  <Mark size={56} progress={answered} />
+                  <div>
+                    <p className="t-label">
+                      {answered === required.length
+                        ? "Ready to send"
+                        : `${answered} of ${required.length} required answers`}
+                    </p>
+                    <p className="t-small muted">Fields marked * are required.</p>
+                  </div>
+                </div>
                 <div className="form-pair">
                   <Field
                     label="Organization name"
@@ -123,11 +138,11 @@ export default function Start() {
                   <input id="start-gotcha" name="_gotcha" tabIndex={-1} autoComplete="off" />
                 </div>
                 {state === "error" && (
-                  <p className="form-error t-mono" role="alert">
+                  <p className="form-error" role="alert">
                     The form could not send. Your answers are still here.
                   </p>
                 )}
-                <Button type="submit" size="lg" disabled={state === "submitting"}>
+                <Button type="submit" variant="accent" size="lg" disabled={state === "submitting"}>
                   {state === "submitting" ? "Sending…" : "Send project details"}
                 </Button>
               </form>
