@@ -6,17 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "prebuild": "npm run dither",
-    "dither": "node scripts/dither.mjs",
+    "prebuild": "npm run assets",
+    "assets": "node scripts/assets.mjs",
+    "brand": "node scripts/brand.mjs",
     "lint": "eslint . --max-warnings=0",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"scripts/**/*.mjs\" index.html package.json vite.config.ts eslint.config.js",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"scripts/**/*.mjs\" index.html package.json vite.config.ts eslint.config.js",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fontsource-variable/instrument-sans": "^5.2.6",
-    "@fontsource/ibm-plex-mono": "^5.2.6",
-    "@fontsource/instrument-serif": "^5.2.6",
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
     "@vercel/analytics": "^1.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
