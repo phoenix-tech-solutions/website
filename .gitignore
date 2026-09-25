@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
+*-stdout.log
+*-stderr.log
+lighthouse-*.json
+qa/
 
 # Editor directories and files
 .vscode/*

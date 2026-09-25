@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@theme {
+  --color-cream: #fdf5e8;
+  --color-cream-raised: #fffaf2;
+  --color-cream-sunk: #f5ead7;
+  --color-line: #e5d8c2;
+  --color-line-strong: #c9b697;
+  --color-ink: #0d0605;
+  --color-ink-muted: #5e554c;
+  --color-navy: #232c56;
+  --color-navy-lift: #313d72;
+  --color-terracotta: #d56b49;
+  --color-terracotta-lift: #e17e5d;
+  /* Terracotta is 3.2:1 on cream: large text and non-text only. Use the deep shade for small text. */
+  --color-terracotta-deep: #b0502f;
+  --color-terracotta-wash: #f6dccf;
+  --font-sans: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 4px;
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur-fast: 160ms;
+  --container: 1200px;
+  --measure: 62ch;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --gap: clamp(1rem, 2.5vw, 2rem);
+  --space-section: clamp(4rem, 8vw, 7rem);
+  --nav-h: 68px;
+}
