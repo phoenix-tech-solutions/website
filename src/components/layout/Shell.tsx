@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { Button, Container, Icon, Rule } from "../primitives";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Button, Container, Icon } from "../primitives";
 import { Lockup } from "../brand";
 import { site } from "../../content/site";
 
@@ -26,7 +26,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    const update = () => setScrolled(scrollY > 24);
+    const update = () => setScrolled(scrollY > 8);
     update();
     addEventListener("scroll", update, { passive: true });
     return () => removeEventListener("scroll", update);
@@ -38,11 +38,11 @@ export function Nav() {
           <Lockup />
           <nav aria-label="Main" className="desktop-nav">
             {site.nav.map((item) => (
-              <NavLink key={item.href} to={item.href}>
+              <NavLink key={item.href} to={item.href} viewTransition>
                 {item.label}
               </NavLink>
             ))}
-            <Button href="/start" as="link">
+            <Button to="/start" variant="accent">
               Start a project
             </Button>
           </nav>
@@ -110,19 +110,23 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
       aria-modal="true"
       aria-label="Main menu"
     >
-      <button className="menu-close" type="button" onClick={onClose}>
-        <span className="sr-only">Close menu</span>
-        <Icon name="close" />
-      </button>
-      <nav>
-        {site.nav.map((item, index) => (
-          <NavLink key={item.href} to={item.href} onClick={onClose}>
-            <span className="t-mono">0{index + 1}</span>
+      <div className="mobile-menu__top">
+        <button className="menu-close" type="button" onClick={onClose}>
+          <span className="sr-only">Close menu</span>
+          <Icon name="close" />
+        </button>
+      </div>
+      <nav aria-label="Main">
+        <NavLink to="/" end viewTransition onClick={onClose}>
+          Home
+        </NavLink>
+        {site.nav.map((item) => (
+          <NavLink key={item.href} to={item.href} viewTransition onClick={onClose}>
             {item.label}
           </NavLink>
         ))}
       </nav>
-      <Button href="/start" as="link" size="lg" onClick={onClose}>
+      <Button to="/start" variant="accent" size="lg" onClick={onClose}>
         Start a project
       </Button>
     </div>
@@ -131,42 +135,32 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
 export function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-environment" aria-hidden />
-      <div className="footer-panel">
-        <div className="footer-grid">
-          <div>
+      <Container>
+        <div className="footer-top">
+          <div className="footer-brand">
             <Lockup />
-            <p className="muted measure">Free digital work for community organizations.</p>
+            <p className="muted">
+              Free websites and apps for community organizations in {site.location}.
+            </p>
           </div>
-          <FooterColumn
-            title="Work"
-            links={[
-              ["All work", "/work"],
-              ["Start a project", "/start"],
-            ]}
-          />
-          <FooterColumn title="Organization" links={[["About", "/about"]]} />
-          <FooterColumn
-            title="Connect"
-            links={site.email ? [["Email", `mailto:${site.email}`]] : [["Contact", "/start"]]}
-          />
+          <nav aria-label="Footer" className="footer-nav">
+            <Link to="/work" viewTransition>
+              Work
+            </Link>
+            <Link to="/about" viewTransition>
+              About
+            </Link>
+            <Link to="/start" viewTransition>
+              Start a project
+            </Link>
+            {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
+          </nav>
         </div>
-        <Rule />
-        <p className="footer-legal t-mono-sm">{site.legal}</p>
-      </div>
+        <p className="footer-legal muted">
+          © {new Date().getFullYear()} {site.name}. {site.sponsor}
+        </p>
+      </Container>
     </footer>
-  );
-}
-function FooterColumn({ title, links }: { title: string; links: string[][] }) {
-  return (
-    <div className="footer-column">
-      <p className="t-mono">{title}</p>
-      {links.map(([label, href]) => (
-        <a key={href} href={href}>
-          {label}
-        </a>
-      ))}
-    </div>
   );
 }
 export function Shell({ children }: { children: ReactNode }) {

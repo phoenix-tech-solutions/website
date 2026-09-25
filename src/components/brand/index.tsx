@@ -1,177 +1,89 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "../../lib/cn";
-import { useInView } from "../../lib/useInView";
-import { usePrefersReducedMotion } from "../../lib/usePrefersReducedMotion";
 
+// Same geometry as public/phoenix-wing-navy.svg, top feather first. Each navy shade is tucked
+// under its terracotta face so the two never leave a seam.
+export const FEATHERS = [
+  {
+    shade: "M191.7 61.5L51.7 141.5L19.1 212.5L35.2 204.9L61.7 152L192.9 62.4Z",
+    face: "M273.7 5.5L222.7 111.5L77.7 191.5L86.2 173.1L185.7 96.5L74.2 164.1L48.7 219.5L6.3 240.5L19.1 212.5L33.9 204.1L60.4 151.2Z",
+  },
+  {
+    shade: "M241.7 124.5L86.7 201L199.7 162.5L184.7 206.5Z",
+    face: "M205.7 154.5L184.7 206.5L58.4 237.8L175.7 184L64.7 218.5L86.7 201Z",
+  },
+  {
+    shade: "M180.7 225.5L71.7 247.9L136.7 250.5L121.7 274.5Z",
+    face: "M143.7 243.5L121.7 274.5L7.7 270.5L113.7 258.5L35.7 255.3L71.7 247.9Z",
+  },
+];
+
+/**
+ * The wing mark. `progress` builds it up in four steps: bottom feather, middle, top, then the
+ * navy shading. Unbuilt feathers render as a dashed outline, and so does a `missing` one.
+ */
 export function Mark({
   size = 32,
-  animated = false,
-  title = true,
+  label,
+  progress = 4,
+  missing,
+  enter = false,
 }: {
   size?: number;
-  animated?: boolean;
-  title?: boolean;
+  label?: string;
+  progress?: number;
+  missing?: 0 | 1 | 2;
+  enter?: boolean;
 }) {
   return (
-    <img
-      className={cn("brand-mark", animated && "brand-mark--animated")}
-      src="/phoenix-mark.png"
-      alt={title ? "Phoenix Tech Solutions" : ""}
+    <svg
+      className={cn("brand-mark", enter && "brand-mark--enter")}
+      viewBox="0 0 280 280"
       width={size}
       height={size}
-    />
+      role={label ? "img" : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+      focusable="false"
+    >
+      {FEATHERS.map((feather, index) => {
+        const present = missing !== index;
+        return (
+          <g
+            key={feather.face}
+            className="brand-mark__feather"
+            style={{ "--i": FEATHERS.length - 1 - index } as CSSProperties}
+          >
+            <path
+              className="brand-mark__shade"
+              d={feather.shade}
+              data-on={present && progress >= 4}
+            />
+            <path
+              className="brand-mark__face"
+              d={feather.face}
+              data-on={present && progress >= FEATHERS.length - index}
+            />
+          </g>
+        );
+      })}
+    </svg>
   );
 }
 
-export function Lockup({ inverted = false }: { inverted?: boolean }) {
+export function Lockup({ className }: { className?: string }) {
   return (
     <Link
       to="/"
-      className={cn("lockup", inverted && "lockup--inverted")}
+      viewTransition
+      className={cn("lockup", className)}
       aria-label="Phoenix Tech Solutions home"
     >
-      <img className="nav-logo" src="/phoenix-logo.webp" alt="" width="1024" height="1024" />
+      <Mark size={30} />
+      <span className="lockup__name">
+        Phoenix <span>Tech Solutions</span>
+      </span>
     </Link>
-  );
-}
-
-const cycle = [
-  {
-    label: "Listen",
-    detail: "We learn what your organization and its users need.",
-  },
-  {
-    label: "Build",
-    detail: "You review working screens while we design and develop.",
-  },
-  {
-    label: "Launch",
-    detail: "Your site goes live with the code, access, and a walkthrough.",
-  },
-] as const;
-
-export function ProjectCycle() {
-  const [active, setActive] = useState(0);
-  const reduced = usePrefersReducedMotion();
-  const step = cycle[active];
-
-  return (
-    <div
-      className="project-cycle"
-      data-step={active + 1}
-      style={{ "--cycle-turn": `${active * 120}deg` } as CSSProperties}
-      onPointerMove={(event) => {
-        if (reduced) return;
-        const rect = event.currentTarget.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - 0.5;
-        const y = (event.clientY - rect.top) / rect.height - 0.5;
-        event.currentTarget.style.setProperty("--cycle-rx", `${y * -2.4}deg`);
-        event.currentTarget.style.setProperty("--cycle-ry", `${x * 2.4}deg`);
-      }}
-      onPointerLeave={(event) => {
-        event.currentTarget.style.setProperty("--cycle-rx", "0deg");
-        event.currentTarget.style.setProperty("--cycle-ry", "0deg");
-      }}
-    >
-      <div className="project-cycle__top t-mono">
-        <span>Project cycle</span>
-        <span>0{active + 1} / 03</span>
-      </div>
-
-      <div className="project-cycle__visual" aria-hidden>
-        <div className="project-cycle__orbit" />
-        <div className="project-cycle__orbit project-cycle__orbit--inner" />
-        <div className="project-cycle__dial">
-          <span className="project-cycle__node project-cycle__node--one" />
-          <span className="project-cycle__node project-cycle__node--two" />
-          <span className="project-cycle__node project-cycle__node--three" />
-        </div>
-        <div className="project-cycle__core">
-          <Mark size={116} title={false} />
-        </div>
-      </div>
-
-      <div className="project-cycle__steps" aria-label="Explore our project process">
-        {cycle.map((item, index) => (
-          <button
-            key={item.label}
-            type="button"
-            aria-pressed={active === index}
-            aria-describedby="cycle-detail"
-            onClick={() => setActive(index)}
-            onPointerEnter={() => setActive(index)}
-            onFocus={() => setActive(index)}
-          >
-            <span className="t-mono-sm">0{index + 1}</span>
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </div>
-
-      <div id="cycle-detail" className="project-cycle__detail" role="status" aria-live="polite">
-        <span className="t-mono">{step.label}</span>
-        <p>{step.detail}</p>
-      </div>
-    </div>
-  );
-}
-
-type DitherProps = {
-  src: string;
-  dither?: string;
-  alt: string;
-  ratio?: `${number}/${number}`;
-  trigger?: "view" | "hover" | "both";
-  priority?: boolean;
-  className?: string;
-};
-
-export function DitherImage({
-  src,
-  dither = src.replace(/\.webp$/, ".dither.png"),
-  alt,
-  ratio = "4/3",
-  trigger = "both",
-  priority = false,
-  className,
-}: DitherProps) {
-  const reduced = usePrefersReducedMotion();
-  const { ref, inView } = useInView<HTMLDivElement>();
-  const [hovered, setHovered] = useState(false);
-  const resolved = reduced || (trigger !== "hover" && inView) || (trigger !== "view" && hovered);
-  return (
-    <div
-      ref={ref}
-      className={cn("dither", className)}
-      style={{ aspectRatio: ratio }}
-      data-resolved={resolved}
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
-    >
-      <img
-        src={src}
-        srcSet={`${src.replace(/\.webp$/, "-800.webp")} 800w, ${src} 1600w`}
-        sizes={ratio === "16/9" ? "100vw" : "(max-width: 1023px) 100vw, 58vw"}
-        alt={alt}
-        width="1600"
-        height="1200"
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        fetchPriority={priority ? "high" : undefined}
-      />
-      {!reduced && (
-        <img
-          className="dither__top"
-          src={dither}
-          alt=""
-          aria-hidden
-          width="780"
-          height="585"
-          loading={priority ? "eager" : "lazy"}
-          decoding="async"
-        />
-      )}
-    </div>
   );
 }

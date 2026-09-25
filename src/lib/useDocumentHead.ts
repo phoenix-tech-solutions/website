@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 export function useDocumentHead(
   title: string,
-  description = "A student-run nonprofit that designs and builds websites and apps for community organizations. Free, permanently.",
+  description = "Free websites and apps for nonprofits, school clubs, and community groups, built by a student-run team in Atlanta.",
 ) {
   useEffect(() => {
     document.title = title;

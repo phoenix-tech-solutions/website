@@ -1,25 +1,19 @@
-import { lazy, Suspense } from "react";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Shell } from "./components/layout/Shell";
 import Home from "./pages/Home";
-const Work = lazy(() => import("./pages/Work"));
-const WorkDetail = lazy(() => import("./pages/WorkDetail"));
-const About = lazy(() => import("./pages/About"));
-const Start = lazy(() => import("./pages/Start"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Styleguide = lazy(() => import("./pages/Styleguide"));
+import Work from "./pages/Work";
+import WorkDetail from "./pages/WorkDetail";
+import About from "./pages/About";
+import Start from "./pages/Start";
+import NotFound from "./pages/NotFound";
+import Styleguide from "./pages/Styleguide";
+
+// Pages are small, so they ship together: a page change never waits on a network request,
+// which keeps the view transition between pages smooth.
 function Layout() {
   return (
     <Shell>
-      <Suspense
-        fallback={
-          <div className="route-loading t-mono" role="status">
-            Loading page
-          </div>
-        }
-      >
-        <Outlet />
-      </Suspense>
+      <Outlet />
     </Shell>
   );
 }
