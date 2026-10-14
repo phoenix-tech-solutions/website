@@ -83,7 +83,7 @@ export const projects: Project[] = [
     cover: "/media/work/sewa-green-team/cover.webp",
     summary: "Projects, events, and resources for a student environmental service team.",
   },
-  // TODO(confirm): live URL and screenshot for Hands of Hope.
+  // TODO(confirm): screenshot for Hands of Hope.
   {
     slug: "hands-of-hope",
     client: "Hands of Hope",
@@ -92,6 +92,7 @@ export const projects: Project[] = [
     status: "live",
     year: 2025,
     sector: "Community service",
+    url: "https://handsofhope-new.vercel.app/",
     summary: "A public site for local service work and the people behind it.",
   },
   {
