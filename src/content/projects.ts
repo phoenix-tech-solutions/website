@@ -92,7 +92,7 @@ export const projects: Project[] = [
     status: "live",
     year: 2025,
     sector: "Community service",
-    url: "https://handsofhope-new.vercel.app/",
+    url: "https://handsofhope-old.vercel.app/",
     summary: "A public site for local service work and the people behind it.",
   },
   {
