@@ -1,4 +1,4 @@
-import { Container, Section } from "../components/primitives";
+import { Container, ExternalLink, Section } from "../components/primitives";
 import { ProjectCard } from "../components/work";
 import { inProgress, live, spell } from "../content/projects";
 import { useDocumentHead } from "../lib/useDocumentHead";
@@ -38,7 +38,13 @@ export default function Work() {
               <ul className="plain-list">
                 {alsoLive.map((project) => (
                   <li key={project.slug}>
-                    <p className="t-h3">{project.client}</p>
+                    <p className="t-h3">
+                      {project.url ? (
+                        <ExternalLink href={project.url}>{project.client}</ExternalLink>
+                      ) : (
+                        project.client
+                      )}
+                    </p>
                     <p className="muted">{project.summary}</p>
                     <p className="t-label">{project.sector}</p>
                   </li>
