@@ -5,7 +5,7 @@ export const site = {
   location: "Atlanta",
   email: "",
   donateUrl: "",
-  url: "https://phoenixtechsolutions.org",
+  url: "https://phoenixtechsol.org",
   nav: [
     { label: "Work", href: "/work" },
     { label: "About", href: "/about" },

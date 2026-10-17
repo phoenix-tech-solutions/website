@@ -9,7 +9,7 @@ if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
-    {(location.hostname === "phoenixtechsolutions.org" ||
+    {(location.hostname === "phoenixtechsol.org" ||
       location.hostname.endsWith(".vercel.app")) && <Analytics />}
   </StrictMode>,
 );

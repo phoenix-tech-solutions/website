@@ -18,6 +18,6 @@ export function useDocumentHead(
       canonical.rel = "canonical";
       document.head.append(canonical);
     }
-    canonical.href = `https://phoenixtechsolutions.org${location.pathname}`;
+    canonical.href = `https://phoenixtechsol.org${location.pathname}`;
   }, [title, description]);
 }
